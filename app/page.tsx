@@ -28,6 +28,58 @@ export default async function Home() {
             <SearchIcon />
           </Button>
         </div>
+        {/* Busca Rapida */}
+        <div className="mt-5 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+          <Button className="gap-2" variant="secondary">
+            <Image src="./cabelo.svg" width={16} height={16} alt={"cabelo"} />
+            Cabelo
+          </Button>
+
+          <Button className="gap-2" variant="secondary">
+            <Image src="./barba.svg" width={16} height={16} alt={"barba"} />
+            Barba
+          </Button>
+
+          <Button className="gap-2" variant="secondary">
+            <Image
+              src="./massagem.svg"
+              width={16}
+              height={16}
+              alt={"massagem"}
+            />
+            massagem
+          </Button>
+
+          <Button className="gap-2" variant="secondary">
+            <Image
+              src="./acabamento.svg"
+              width={16}
+              height={16}
+              alt={"acabamento"}
+            />
+            acabamento
+          </Button>
+
+          <Button className="gap-2" variant="secondary">
+            <Image
+              src="./hidratacao.svg"
+              width={16}
+              height={16}
+              alt={"hidratacao"}
+            />
+            hidratacao
+          </Button>
+
+          <Button className="gap-2" variant="secondary">
+            <Image
+              src="./sobrancelha.svg"
+              width={16}
+              height={16}
+              alt={"sobrancelha"}
+            />
+            sobrancelha
+          </Button>
+        </div>
         {/* Banner */}
         <div className="relative mt-5 h-[150px] w-full">
           <Image
@@ -69,6 +121,15 @@ export default async function Home() {
           ))}
         </div>
       </div>
+      <footer>
+        <Card>
+          <CardContent className="px-5 py-6 text-center">
+            <p className="text-[10px] text-gray-400">
+              © 2023 Copyright <span className="font-bold">VCTRR</span>
+            </p>
+          </CardContent>
+        </Card>
+      </footer>
     </div>
   )
 }

@@ -9,6 +9,7 @@ import { Avatar } from "./_components/ui/avatar"
 import { AvatarImage } from "@radix-ui/react-avatar"
 import { db } from "./_lib/prisma"
 import BarbershopItem from "./_components/barbershop-item"
+import { quickSearchOption } from "./_constants/quickSearchOptions"
 
 export default async function Home() {
   const barbershop = await db.barbershop.findMany({})
@@ -30,55 +31,17 @@ export default async function Home() {
         </div>
         {/* Busca Rapida */}
         <div className="mt-5 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
-          <Button className="gap-2" variant="secondary">
-            <Image src="./cabelo.svg" width={16} height={16} alt={"cabelo"} />
-            Cabelo
-          </Button>
-
-          <Button className="gap-2" variant="secondary">
-            <Image src="./barba.svg" width={16} height={16} alt={"barba"} />
-            Barba
-          </Button>
-
-          <Button className="gap-2" variant="secondary">
-            <Image
-              src="./massagem.svg"
-              width={16}
-              height={16}
-              alt={"massagem"}
-            />
-            massagem
-          </Button>
-
-          <Button className="gap-2" variant="secondary">
-            <Image
-              src="./acabamento.svg"
-              width={16}
-              height={16}
-              alt={"acabamento"}
-            />
-            acabamento
-          </Button>
-
-          <Button className="gap-2" variant="secondary">
-            <Image
-              src="./hidratacao.svg"
-              width={16}
-              height={16}
-              alt={"hidratacao"}
-            />
-            hidratacao
-          </Button>
-
-          <Button className="gap-2" variant="secondary">
-            <Image
-              src="./sobrancelha.svg"
-              width={16}
-              height={16}
-              alt={"sobrancelha"}
-            />
-            sobrancelha
-          </Button>
+          {quickSearchOption.map((option) => (
+            <Button className="gap-2" variant="secondary" key={option.title}>
+              <Image
+                src={option.imageUrl}
+                width={16}
+                height={16}
+                alt={option.title}
+              />
+              {option.title}
+            </Button>
+          ))}
         </div>
         {/* Banner */}
         <div className="relative mt-5 h-[150px] w-full">
@@ -115,7 +78,7 @@ export default async function Home() {
           </CardContent>
         </Card>
         <h4 className="mt-5 uppercase text-gray-400">Recomendados</h4>
-        <div className="mt-2 flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+        <div className="mt-2 flex gap-4 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
           {barbershop.map((barbershop) => (
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
           ))}

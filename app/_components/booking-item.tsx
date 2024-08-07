@@ -8,7 +8,6 @@ import { Card, CardContent } from "./ui/card"
 const BookingItem = () => {
   return (
     <>
-      {" "}
       {/* Como precisa renderizar varios elementos usa-se fragment <></> */}
       <div className="mt-5">
         <h4 className="uppercase text-gray-400">Agendamentos</h4>

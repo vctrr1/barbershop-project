@@ -1,3 +1,4 @@
+import CopyPhoneToClipbord from "@/app/_components/button-copy-item"
 import Footer from "@/app/_components/footer"
 import ServiceItem from "@/app/_components/service-item"
 import { Button } from "@/app/_components/ui/button"
@@ -56,6 +57,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
             <MenuIcon />
           </Button>
         </div>
+        {/* Infos Barbearias */}
         <div className="border-b border-solid p-5">
           <h1 className="mb-2 text-xl font-bold">{barbershop?.name}</h1>
           <div className="mb-1 flex items-center gap-1">
@@ -67,12 +69,12 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
             <p className="text-sm">5.0 (XXX Avaliações)</p>
           </div>
         </div>
-
+        {/* Sobre nos */}
         <div className="space-y-2 border-b border-solid p-5">
           <p className="text-sm font-bold uppercase text-gray-400">Sobre nós</p>
           <p className="text-justify text-sm">{barbershop?.description}</p>
         </div>
-
+        {/* Serviços */}
         <div className="space-y-3 border-b border-solid p-5">
           <p className="text-sm font-bold uppercase text-gray-400">Serviços</p>
           {barbershop.services.map((service) => (
@@ -80,11 +82,12 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           ))}
         </div>
 
-        <div className="space-y-2 border-b border-solid p-5">
+        {/* Contatos */}
+        <div className="space-y-2 p-5">
           <p className="text-sm font-bold uppercase text-gray-400">Contatos</p>
-          <div className="flex flex-col space-y-4">
-            {barbershop.phones.map((phone, index) => (
-              <h3 key={index}>{phone}</h3>
+          <div className="flex flex-col space-y-3">
+            {barbershop.phones.map((phone) => (
+              <CopyPhoneToClipbord phone={phone} key={phone} />
             ))}
           </div>
         </div>

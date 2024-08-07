@@ -3,11 +3,11 @@ import Header from "./_components/header"
 import { Button } from "./_components/ui/button"
 import { Input } from "./_components/ui/input"
 import Image from "next/image"
-import { Card, CardContent } from "./_components/ui/card"
 import { db } from "./_lib/prisma"
 import BarbershopItem from "./_components/barbershop-item"
 import { quickSearchOption } from "./_constants/quickSearchOptions"
 import BookingItem from "./_components/booking-item"
+import Footer from "./_components/footer"
 
 export default async function Home() {
   const barbershop = await db.barbershop.findMany({})
@@ -67,15 +67,7 @@ export default async function Home() {
       </div>{" "}
       {/* Fim conteudo geral */}
       {/* footer */}
-      <footer>
-        <Card>
-          <CardContent className="px-5 py-6 text-center">
-            <p className="text-[10px] text-gray-400">
-              © 2023 Copyright <span className="font-bold">VCTRR</span>
-            </p>
-          </CardContent>
-        </Card>
-      </footer>
+      <Footer />
     </div>
   )
 }

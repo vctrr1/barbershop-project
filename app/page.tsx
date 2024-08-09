@@ -7,6 +7,7 @@ import BookingItem from "./_components/booking-item"
 import DateItem from "./_components/date-item"
 import SearchItem from "./_components/search-item"
 import Header from "./_components/header"
+import Link from "next/link"
 
 export default async function Home() {
   const barbershop = await db.barbershop.findMany({})
@@ -27,14 +28,21 @@ export default async function Home() {
         {/* Busca Rapida */}
         <div className="mt-5 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
           {quickSearchOption.map((option) => (
-            <Button className="gap-2" variant="secondary" key={option.title}>
-              <Image
-                src={option.imageUrl}
-                width={16}
-                height={16}
-                alt={option.title}
-              />
-              {option.title}
+            <Button
+              className="gap-2"
+              variant="secondary"
+              key={option.title}
+              asChild
+            >
+              <Link href={`/barbershop?search=${option.title}`}>
+                <Image
+                  src={option.imageUrl}
+                  width={16}
+                  height={16}
+                  alt={option.title}
+                />
+                <p className="capitalize">{option.title}</p>
+              </Link>
             </Button>
           ))}
         </div>
@@ -61,7 +69,6 @@ export default async function Home() {
         </div>
       </div>{" "}
       {/* Fim conteudo geral */}
-      {/* footer */}
     </div>
   )
 }

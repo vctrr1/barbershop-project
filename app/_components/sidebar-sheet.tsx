@@ -61,18 +61,18 @@ const SidebarSheet = () => {
               </Dialog>
             </>
           ) : (
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row items-center gap-2">
               <Avatar>
                 <AvatarImage
                   src={data?.user?.image as string}
                   alt="user image"
                 />
               </Avatar>
-              <div className="flex flex-col items-start">
-                <p className="truncate font-bold">
+              <div className="flex w-full flex-col items-start">
+                <p className="truncate text-sm font-bold">
                   {data?.user?.name?.split(" ").slice(0, 2).join(" ")}
                 </p>
-                <p className="truncate text-xs text-gray-300">
+                <p className="w-full min-w-0 truncate text-xs text-gray-300">
                   {data?.user?.email}
                 </p>
               </div>
@@ -96,14 +96,24 @@ const SidebarSheet = () => {
       </div>
       <div className="flex flex-col gap-2 border-b border-solid pb-4 pt-4">
         {quickSearchOption.map((option) => (
-          <Button
-            key={option.title}
-            className="justify-start gap-2"
-            variant="ghost"
-          >
-            <Image src={option.imageUrl} alt="test" width={20} height={20} />
-            <span className="capitalize">{option.title}</span>
-          </Button>
+          <SheetClose key={option.title} asChild>
+            <Button
+              key={option.title}
+              className="justify-start gap-2"
+              variant="ghost"
+              asChild
+            >
+              <Link href={`/barbershop?service=${option.title}`}>
+                <Image
+                  src={option.imageUrl}
+                  alt="test"
+                  width={20}
+                  height={20}
+                />
+                <span className="capitalize">{option.title}</span>
+              </Link>
+            </Button>
+          </SheetClose>
         ))}
       </div>
       <div className="flex flex-col gap-2 pb-4 pt-4">

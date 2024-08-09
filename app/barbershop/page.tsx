@@ -18,7 +18,7 @@ const BarbershopsPage = async ({ searchParams }: BarbeshopPageProps) => {
   })
 
   return (
-    <div className="mb-3 mt-6 p-5 text-sm font-bold uppercase text-gray-400">
+    <div className="mb-3 p-5 text-sm font-bold uppercase text-gray-400">
       <h1 className="pb-2">
         Resultados para a busca &quot;{searchParams.search}&quot;
       </h1>

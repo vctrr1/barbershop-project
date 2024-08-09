@@ -1,4 +1,3 @@
-import Header from "./_components/header"
 import { Button } from "./_components/ui/button"
 import Image from "next/image"
 import { db } from "./_lib/prisma"
@@ -14,7 +13,6 @@ export default async function Home() {
 
   return (
     <div>
-      <Header />
       {/* Conteudo Geral */}
       <div className="p-5">
         {/* Nome Usuario e dia */}

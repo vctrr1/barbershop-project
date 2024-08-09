@@ -18,6 +18,7 @@ const DateItem = () => {
     })
 
     const formatedDate = `${weekday.charAt(0).toUpperCase() + weekday.slice(1)}, ${day} ${month.charAt(0).toUpperCase() + month.slice(1)}.`
+
     setCurrentDate(formatedDate)
   }, [])
 

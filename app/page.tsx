@@ -34,7 +34,7 @@ export default async function Home() {
               key={option.title}
               asChild
             >
-              <Link href={`/barbershop?search=${option.title}`}>
+              <Link href={`/barbershop?service=${option.title}`}>
                 <Image
                   src={option.imageUrl}
                   width={16}

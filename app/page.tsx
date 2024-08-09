@@ -1,14 +1,13 @@
-import { SearchIcon } from "lucide-react"
-import Header from "./_components/header"
 import { Button } from "./_components/ui/button"
-import { Input } from "./_components/ui/input"
 import Image from "next/image"
 import { db } from "./_lib/prisma"
 import BarbershopItem from "./_components/barbershop-item"
 import { quickSearchOption } from "./_constants/quickSearchOptions"
 import BookingItem from "./_components/booking-item"
-import Footer from "./_components/footer"
 import DateItem from "./_components/date-item"
+import SearchItem from "./_components/search-item"
+import Header from "./_components/header"
+import Link from "next/link"
 
 export default async function Home() {
   const barbershop = await db.barbershop.findMany({})
@@ -20,27 +19,30 @@ export default async function Home() {
       <div className="p-5">
         {/* Nome Usuario e dia */}
         <h2 className="text-xl font-bold">Ola, Victor!</h2>
+        {/**componente de boas vintas e data */}
         <DateItem />
-
-        {/* Input Pesquisa */}
-        <div className="mt-4 flex items-center gap-2">
-          <Input placeholder="Pesquise Aqui." />
-          <Button>
-            <SearchIcon />
-          </Button>
+        {/* Input Pesquisa, esta dentro de uma div para o componente filho (botão) nao atrabalha o espaçamento do pai que é a pag principal */}
+        <div className="mt-4">
+          <SearchItem />
         </div>
-
         {/* Busca Rapida */}
         <div className="mt-5 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
           {quickSearchOption.map((option) => (
-            <Button className="gap-2" variant="secondary" key={option.title}>
-              <Image
-                src={option.imageUrl}
-                width={16}
-                height={16}
-                alt={option.title}
-              />
-              {option.title}
+            <Button
+              className="gap-2"
+              variant="secondary"
+              key={option.title}
+              asChild
+            >
+              <Link href={`/barbershop?search=${option.title}`}>
+                <Image
+                  src={option.imageUrl}
+                  width={16}
+                  height={16}
+                  alt={option.title}
+                />
+                <p className="capitalize">{option.title}</p>
+              </Link>
             </Button>
           ))}
         </div>
@@ -67,8 +69,6 @@ export default async function Home() {
         </div>
       </div>{" "}
       {/* Fim conteudo geral */}
-      {/* footer */}
-      <Footer />
     </div>
   )
 }

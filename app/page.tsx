@@ -4,15 +4,16 @@ import { db } from "./_lib/prisma"
 import BarbershopItem from "./_components/barbershop-item"
 import { quickSearchOption } from "./_constants/quickSearchOptions"
 import BookingItem from "./_components/booking-item"
-import Footer from "./_components/footer"
 import DateItem from "./_components/date-item"
 import SearchItem from "./_components/search-item"
+import Header from "./_components/header"
 
 export default async function Home() {
   const barbershop = await db.barbershop.findMany({})
 
   return (
     <div>
+      <Header />
       {/* Conteudo Geral */}
       <div className="p-5">
         {/* Nome Usuario e dia */}
@@ -61,7 +62,6 @@ export default async function Home() {
       </div>{" "}
       {/* Fim conteudo geral */}
       {/* footer */}
-      <Footer />
     </div>
   )
 }

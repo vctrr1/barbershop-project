@@ -31,9 +31,35 @@ const SidebarSheet = () => {
     <SheetContent>
       <SheetHeader>
         <SheetTitle>Menu</SheetTitle>
-        <div className="flex flex-row items-center justify-between border-b border-solid pb-4">
+        <div className="flex w-full flex-row items-center justify-between border-b border-solid pb-4">
           {!data?.user?.name ? (
-            <h2 className="font-bold">Faça seu login!</h2>
+            <>
+              <h2 className="text-[15px] font-bold">Faça seu login!</h2>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="p-2">
+                    <LogInIcon size={20} />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="w-[80%]">
+                  <DialogHeader>
+                    <DialogTitle className="pt-3">Login</DialogTitle>
+                    <DialogDescription>
+                      Faça login com sua conta Google!
+                    </DialogDescription>
+                  </DialogHeader>
+                  <Button onClick={handleLoginWithGoogle} className="gap-2">
+                    <Image
+                      src="/google.svg"
+                      width={30}
+                      height={30}
+                      alt="goole"
+                    />
+                    Google
+                  </Button>
+                </DialogContent>
+              </Dialog>
+            </>
           ) : (
             <div className="flex flex-row gap-2">
               <Avatar>
@@ -43,34 +69,15 @@ const SidebarSheet = () => {
                 />
               </Avatar>
               <div className="flex flex-col items-start">
-                <p className="max-w-[150px] truncate font-bold">
-                  {data?.user?.name}
+                <p className="truncate font-bold">
+                  {data?.user?.name?.split(" ").slice(0, 2).join(" ")}
                 </p>
-                <p className="max-w-[150px] truncate text-xs text-gray-300">
+                <p className="truncate text-xs text-gray-300">
                   {data?.user?.email}
                 </p>
               </div>
             </div>
           )}
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="p-2">
-                <LogInIcon size={20} />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="w-[80%]">
-              <DialogHeader>
-                <DialogTitle className="pt-3">Login</DialogTitle>
-                <DialogDescription>
-                  Faça login com sua conta Google!
-                </DialogDescription>
-              </DialogHeader>
-              <Button onClick={handleLoginWithGoogle} className="gap-2">
-                <Image src="/google.svg" width={30} height={30} alt="goole" />
-                Google
-              </Button>
-            </DialogContent>
-          </Dialog>
         </div>
       </SheetHeader>
       <div className="flex flex-col gap-2 border-b border-solid pb-4 pt-4">

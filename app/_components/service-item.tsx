@@ -174,7 +174,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     <SheetFooter className="px-4">
                       <SheetClose asChild>
                         <Button type="submit" className="gap-2">
-                          <NotebookText />
+                          <NotebookText size={20} />
                           Agendar
                         </Button>
                       </SheetClose>

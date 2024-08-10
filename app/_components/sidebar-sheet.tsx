@@ -30,7 +30,7 @@ const SidebarSheet = () => {
   return (
     <SheetContent>
       <SheetHeader>
-        <SheetTitle>Menu</SheetTitle>
+        <SheetTitle className="pb-3">Menu</SheetTitle>
         <div className="flex w-full flex-row items-center justify-between border-b border-solid pb-4">
           {!data?.user?.name ? (
             <>
@@ -116,12 +116,14 @@ const SidebarSheet = () => {
           </SheetClose>
         ))}
       </div>
-      <div className="flex flex-col gap-2 pb-4 pt-4">
-        <Button className="gap-2" onClick={handleSignOutGoogle}>
-          <LogOut size={20} />
-          Sair
-        </Button>
-      </div>
+      {data?.user?.name && (
+        <div className="flex flex-col gap-2 pb-4 pt-4">
+          <Button className="my-3 gap-2" onClick={handleSignOutGoogle}>
+            <LogOut size={20} />
+            Sair
+          </Button>
+        </div>
+      )}
     </SheetContent>
   )
 }

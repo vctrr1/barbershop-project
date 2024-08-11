@@ -1,6 +1,6 @@
 "use client"
 
-import { Barbershop, BarbershopService } from "@prisma/client"
+import { Barbershop, BarbershopService, Booking } from "@prisma/client"
 import { Card, CardContent } from "./ui/card"
 import { NotebookText } from "lucide-react"
 import Image from "next/image"
@@ -12,15 +12,15 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "./ui/sheet"
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { format, set } from "date-fns"
 import CreateBooking from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
+import { getBookins } from "../_actions/get-bookins"
 
 interface ServiceItemProps {
   service: BarbershopService
@@ -51,6 +51,22 @@ const TIME_LIST = [
   "18:00",
 ]
 
+const getTimeList = (bookings: Booking[]) => {
+  return TIME_LIST.filter((time) => {
+    const hour = Number(time.split(":")[0])
+    const minutes = Number(time.split(":")[1])
+    const hasBookinOnCurrentTime = bookings.some(
+      (booking) =>
+        booking.date.getHours() === hour &&
+        booking.date.getMinutes() === minutes,
+    )
+    if (hasBookinOnCurrentTime) {
+      return false
+    }
+    return true
+  })
+}
+
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const { data } = useSession()
 
@@ -58,6 +74,22 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined,
   )
+  const [dayBooking, setDayBooking] = useState<Booking[]>([])
+  const [bookingSheetIsOpen, setBookingSheetIsOpen] = useState(false)
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (!selectedDay) return
+      const bookings = await getBookins({
+        date: selectedDay,
+        serviceId: service.id,
+      })
+      setDayBooking(bookings)
+    }
+    fetch()
+  }, [selectedDay, service.id])
+
+  console.log({ dayBooking })
 
   const handleDaySelect = (date: Date | undefined) => {
     setSelectedDay(date)
@@ -65,6 +97,12 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time)
+  }
+  const handleBookingSheetOpenChange = () => {
+    setSelectedDay(undefined)
+    setSelectedTime(undefined)
+    setDayBooking([])
+    setBookingSheetIsOpen(false)
   }
 
   const handleCreateBookin = async () => {
@@ -109,14 +147,19 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 currency: "BRL",
               }).format(Number(service.price))}
             </p>
-            <Sheet>
-              <SheetTrigger asChild>
-                {!data?.user && (
-                  <Button variant="secondary" size="sm" disabled>
-                    Reservar
-                  </Button>
-                )}
-              </SheetTrigger>
+            <Sheet
+              open={bookingSheetIsOpen}
+              onOpenChange={handleBookingSheetOpenChange}
+            >
+              {data?.user && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setBookingSheetIsOpen(true)}
+                >
+                  Reservar
+                </Button>
+              )}
               <SheetContent className="px-0">
                 <SheetHeader className="">
                   <SheetTitle className="text-lg">Faça sua reserva</SheetTitle>
@@ -154,7 +197,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 </div>
                 {selectedDay && (
                   <div className="flex gap-2 overflow-x-auto border-b border-solid px-4 py-5 [&::-webkit-scrollbar]:hidden">
-                    {TIME_LIST.map((time) => (
+                    {getTimeList(dayBooking).map((time) => (
                       <Button
                         key={time}
                         variant={selectedTime === time ? "default" : "outline"}

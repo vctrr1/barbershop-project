@@ -25,7 +25,7 @@ const SidebarSheet = () => {
           {!data?.user ? (
             <>
               <h2 className="text-[15px] font-bold">Faça seu login!</h2>
-              <DialogItemLogin />
+              <DialogItemLogin buttonType={""} />
             </>
           ) : (
             <div className="flex flex-row items-center gap-2">

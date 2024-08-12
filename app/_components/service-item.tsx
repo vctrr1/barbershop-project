@@ -118,7 +118,6 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
       })
       await CreateBooking({
         serviceId: service.id,
-        userId: (data?.user as any).id,
         date: newDate,
       })
       handleBookingSheetOpenChange()
@@ -156,14 +155,14 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             >
               {data?.user ? (
                 <Button
-                  variant="secondary"
+                  variant="outline"
                   size="sm"
                   onClick={() => setBookingSheetIsOpen(true)}
                 >
                   Agendar
                 </Button>
               ) : (
-                <DialogItemLogin />
+                <DialogItemLogin buttonType="booking" variant="outline" />
               )}
               <SheetContent className="px-0">
                 <SheetHeader className="">

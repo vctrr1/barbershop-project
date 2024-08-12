@@ -9,16 +9,28 @@ import {
 } from "./ui/dialog"
 import Image from "next/image"
 import { signIn } from "next-auth/react"
+import { LogInIcon } from "lucide-react"
 
-const DialogItemLogin = () => {
+interface DialogItemLoginProps {
+  buttonType: string
+  variant?:
+    | "default"
+    | "link"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+}
+
+const DialogItemLogin = ({ buttonType, variant }: DialogItemLoginProps) => {
   const handleLoginWithGoogle = async () => {
     await signIn("google")
   }
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="p-2" variant="secondary" size="sm">
-          Agendar
+        <Button className="p-2" size="sm" variant={variant}>
+          {buttonType === "booking" ? "Agendar" : <LogInIcon size={18} />}
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[80%]">

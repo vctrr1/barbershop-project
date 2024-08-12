@@ -7,7 +7,6 @@ import { authOptions } from "../_lib/auth"
 
 interface CreateBookingProps {
   serviceId: string
-  userId: string
   date: Date
 }
 //poderia ser passado os parametros desse jeto, ja que vai pegar todos que passar
@@ -18,11 +17,7 @@ interface CreateBookingProps {
 //  revalidatePath("/barbershop/[id]")
 //}
 
-const CreateBooking = async ({
-  serviceId,
-  userId,
-  date,
-}: CreateBookingProps) => {
+const CreateBooking = async ({ serviceId, date }: CreateBookingProps) => {
   const user = await getServerSession(authOptions)
 
   if (!user) {
@@ -32,7 +27,7 @@ const CreateBooking = async ({
   await db.booking.create({
     data: {
       serviceId,
-      userId,
+      userId: (user.user as any).id,
       date,
     },
   })

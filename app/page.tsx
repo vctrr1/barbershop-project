@@ -8,9 +8,34 @@ import DateItem from "./_components/date-item"
 import SearchItem from "./_components/search-item"
 import Header from "./_components/header"
 import Link from "next/link"
+import { getServerSession } from "next-auth"
+import { authOptions } from "./_lib/auth"
 
 export default async function Home() {
+  const session = await getServerSession(authOptions)
   const barbershop = await db.barbershop.findMany({})
+
+  //se o usuario n estiver logado n faz a query para db e retorna uma lista vazia
+  const confirmedBookings = session?.user
+    ? await db.booking.findMany({
+        where: {
+          userId: (session?.user as any).id,
+          date: {
+            gte: new Date(),
+          },
+        },
+        include: {
+          service: {
+            include: {
+              barbershop: true,
+            },
+          },
+        },
+        orderBy: {
+          date: "asc",
+        },
+      })
+    : []
 
   return (
     <div>
@@ -58,7 +83,14 @@ export default async function Home() {
         </div>
 
         {/* Agendamentos */}
-        <BookingItem />
+        <div className="mt-5">
+          <h4 className="uppercase text-gray-400">Agendamentos</h4>
+        </div>
+        <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          {confirmedBookings.map((booking) => (
+            <BookingItem booking={booking} key={booking.id} />
+          ))}
+        </div>
 
         {/* Barbearias */}
         <h4 className="mt-5 uppercase text-gray-400">Recomendados</h4>

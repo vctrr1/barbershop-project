@@ -1,28 +1,18 @@
 "use client"
 
-import { CalendarIcon, HomeIcon, LogInIcon, LogOut } from "lucide-react"
+import { CalendarIcon, HomeIcon, LogOut } from "lucide-react"
 import { Button } from "./ui/button"
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet"
 import { quickSearchOption } from "../_constants/quickSearchOptions"
 import Link from "next/link"
 import Image from "next/image"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog"
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { Avatar, AvatarImage } from "./ui/avatar"
+import DialogItemLogin from "./dialog-item-login"
 
 const SidebarSheet = () => {
   const { data } = useSession()
-  //função que chama o signIn do next-auth, que é uma promise
-  const handleLoginWithGoogle = async () => {
-    await signIn("google")
-  }
+
   const handleSignOutGoogle = async () => {
     await signOut()
   }
@@ -32,33 +22,10 @@ const SidebarSheet = () => {
       <SheetHeader>
         <SheetTitle className="pb-3">Menu</SheetTitle>
         <div className="flex w-full flex-row items-center justify-between border-b border-solid pb-4">
-          {!data?.user?.name ? (
+          {!data?.user ? (
             <>
               <h2 className="text-[15px] font-bold">Faça seu login!</h2>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="p-2">
-                    <LogInIcon size={20} />
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="w-[80%]">
-                  <DialogHeader>
-                    <DialogTitle className="pt-3">Login</DialogTitle>
-                    <DialogDescription>
-                      Faça login com sua conta Google!
-                    </DialogDescription>
-                  </DialogHeader>
-                  <Button onClick={handleLoginWithGoogle} className="gap-2">
-                    <Image
-                      src="/google.svg"
-                      width={30}
-                      height={30}
-                      alt="goole"
-                    />
-                    Google
-                  </Button>
-                </DialogContent>
-              </Dialog>
+              <DialogItemLogin />
             </>
           ) : (
             <div className="flex flex-row items-center gap-2">
@@ -116,7 +83,7 @@ const SidebarSheet = () => {
           </SheetClose>
         ))}
       </div>
-      {data?.user?.name && (
+      {data?.user && (
         <div className="flex flex-col gap-2 pb-4 pt-4">
           <Button className="my-3 gap-2" onClick={handleSignOutGoogle}>
             <LogOut size={20} />

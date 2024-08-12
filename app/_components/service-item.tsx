@@ -16,11 +16,12 @@ import {
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { useEffect, useState } from "react"
-import { addDays, format, set } from "date-fns"
+import { format, set } from "date-fns"
 import CreateBooking from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 import { getBookins } from "../_actions/get-bookins"
+import DialogItemLogin from "./dialog-item-login"
 
 interface ServiceItemProps {
   service: BarbershopService
@@ -153,14 +154,16 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
               open={bookingSheetIsOpen}
               onOpenChange={handleBookingSheetOpenChange}
             >
-              {data?.user && (
+              {data?.user ? (
                 <Button
                   variant="secondary"
                   size="sm"
                   onClick={() => setBookingSheetIsOpen(true)}
                 >
-                  Reservar
+                  Agendar
                 </Button>
+              ) : (
+                <DialogItemLogin />
               )}
               <SheetContent className="px-0">
                 <SheetHeader className="">
@@ -172,7 +175,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     locale={ptBR}
                     selected={selectedDay}
                     onSelect={handleDaySelect}
-                    fromDate={addDays(new Date(), 1)}
+                    fromDate={new Date()}
                     styles={{
                       head_cell: {
                         width: "100%",

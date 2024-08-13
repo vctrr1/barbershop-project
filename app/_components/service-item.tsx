@@ -91,8 +91,6 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     fetch()
   }, [selectedDay, service.id])
 
-  console.log({ dayBooking })
-
   const handleDaySelect = (date: Date | undefined) => {
     setSelectedDay(date)
   }

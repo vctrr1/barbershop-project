@@ -43,7 +43,9 @@ export default async function Home() {
       {/* Conteudo Geral */}
       <div className="p-5">
         {/* Nome Usuario e dia */}
-        <h2 className="text-xl font-bold">Ola, Victor!</h2>
+        <h2 className="text-xl font-bold">
+          Olá, {session?.user?.name?.split(" ").slice(0, 1)}!
+        </h2>
         {/**componente de boas vintas e data */}
         <DateItem />
         {/* Input Pesquisa, esta dentro de uma div para o componente filho (botão) nao atrabalha o espaçamento do pai que é a pag principal */}
@@ -83,14 +85,18 @@ export default async function Home() {
         </div>
 
         {/* Agendamentos */}
-        <div className="mt-5">
-          <h4 className="uppercase text-gray-400">Agendamentos</h4>
-        </div>
-        <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-          {confirmedBookings.map((booking) => (
-            <BookingItem booking={booking} key={booking.id} />
-          ))}
-        </div>
+        {session?.user && (
+          <>
+            <div className="mt-5">
+              <h4 className="uppercase text-gray-400">Agendamentos</h4>
+            </div>
+            <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+              {confirmedBookings.map((booking) => (
+                <BookingItem booking={booking} key={booking.id} />
+              ))}
+            </div>
+          </>
+        )}
 
         {/* Barbearias */}
         <h4 className="mt-5 uppercase text-gray-400">Recomendados</h4>

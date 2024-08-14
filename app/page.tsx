@@ -10,10 +10,16 @@ import Header from "./_components/header"
 import Link from "next/link"
 import { getServerSession } from "next-auth"
 import { authOptions } from "./_lib/auth"
+import { Card, CardContent } from "./_components/ui/card"
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
   const barbershop = await db.barbershop.findMany({})
+  const barbershopPopular = await db.barbershop.findMany({
+    orderBy: {
+      name: "desc",
+    },
+  })
 
   //se o usuario n estiver logado n faz a query para db e retorna uma lista vazia
   const confirmedBookings = session?.user
@@ -44,7 +50,11 @@ export default async function Home() {
       <div className="p-5">
         {/* Nome Usuario e dia */}
         <h2 className="text-xl font-bold">
-          Olá, {session?.user?.name?.split(" ").slice(0, 1)}!
+          Olá,{" "}
+          {session?.user
+            ? session.user.name?.split(" ").slice(0, 1)
+            : "Bem indo"}
+          !
         </h2>
         {/**componente de boas vintas e data */}
         <DateItem />
@@ -90,11 +100,21 @@ export default async function Home() {
             <div className="mt-5">
               <h4 className="uppercase text-gray-400">Agendamentos</h4>
             </div>
-            <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-              {confirmedBookings.map((booking) => (
-                <BookingItem booking={booking} key={booking.id} />
-              ))}
-            </div>
+            {confirmedBookings.length > 0 ? (
+              <div className="flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                {confirmedBookings.map((booking) => (
+                  <BookingItem booking={booking} key={booking.id} />
+                ))}
+              </div>
+            ) : (
+              <Card className="mt-2">
+                <CardContent className="p-4">
+                  <div className="flex justify-center">
+                    <h2 className="text-gray-400">Sem agendamentos</h2>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </>
         )}
 
@@ -105,8 +125,15 @@ export default async function Home() {
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
           ))}
         </div>
-      </div>{" "}
-      {/* Fim conteudo geral */}
+
+        {/* Barbearias Populares*/}
+        <h4 className="mt-5 uppercase text-gray-400">Recomendados</h4>
+        <div className="mt-2 flex gap-4 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+          {barbershopPopular.map((barbershop) => (
+            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
+      </div>
     </div>
   )
 }

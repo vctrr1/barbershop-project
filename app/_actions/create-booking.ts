@@ -32,6 +32,7 @@ const CreateBooking = async ({ serviceId, date }: CreateBookingProps) => {
     },
   })
   revalidatePath("/barbershop/[id]")
+  revalidatePath("/barbershop/")
 }
 
 export default CreateBooking

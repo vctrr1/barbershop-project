@@ -2,14 +2,22 @@ import { getServerSession } from "next-auth"
 import Header from "../_components/header"
 import { db } from "../_lib/prisma"
 import { authOptions } from "../_lib/auth"
-import { notFound } from "next/navigation"
 import BookingItem from "../_components/booking-item"
+import { Button } from "../_components/ui/button"
+import Link from "next/link"
 
 const Bookings = async () => {
   const session = await getServerSession(authOptions)
 
   if (!session?.user) {
-    return notFound()
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-5">
+        <h1 className="text-base">Faça login para ver seus agendamentos!!</h1>
+        <Link href="/">
+          <Button>Voltar</Button>
+        </Link>
+      </div>
+    )
   }
 
   const ConfirmedBookings = await db.booking.findMany({

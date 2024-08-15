@@ -32,6 +32,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog"
 import { useState } from "react"
+import BookingSummary from "./booking-sumary"
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
     include: {
@@ -137,39 +138,11 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           >
             {isConfirmed ? "Confirmado" : "Finalizado"}
           </Badge>
-          <Card className="mb-6 mt-3">
-            <CardContent className="space-y-3 p-3">
-              <div className="flex items-center justify-between">
-                <h2 className="font-bold">{booking.service.name}</h2>
-                <p className="text-sm font-bold">
-                  {Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(Number(booking.service.price))}
-                </p>
-              </div>
-              <div className="flex items-center justify-between text-gray-400">
-                <h2 className="text-sm">Data</h2>
-                <p className="text-sm">
-                  {format(booking.date, "d 'de' MMM", {
-                    locale: ptBR,
-                  })}
-                </p>
-              </div>
-              <div className="flex items-center justify-between text-gray-400">
-                <h2 className="text-sm">Horário</h2>
-                <p className="text-sm">
-                  {format(booking.date, "HH:mm", {
-                    locale: ptBR,
-                  })}
-                </p>
-              </div>
-              <div className="flex items-center justify-between text-gray-400">
-                <h2 className="text-sm">Barbearia</h2>
-                <p className="text-sm">{booking.service.barbershop.name}</p>
-              </div>
-            </CardContent>
-          </Card>
+          <BookingSummary
+            barbershop={booking.service.barbershop}
+            service={booking.service}
+            selectDate={booking.date}
+          />
           <div className="mb-10 space-y-3">
             {booking.service.barbershop.phones.map((phone) => (
               <CopyPhoneToClipbord phone={phone} key={phone} />

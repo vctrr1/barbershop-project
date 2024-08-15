@@ -179,6 +179,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 </SheetHeader>
                 <div className="border-b border-solid py-4">
                   <Calendar
+                    disabled={{ dayOfWeek: [0] }}
                     mode="single"
                     locale={ptBR}
                     selected={selectedDay}

@@ -53,7 +53,7 @@ export default async function Home() {
           Olá,{" "}
           {session?.user
             ? session.user.name?.split(" ").slice(0, 1)
-            : "Bem indo"}
+            : "Bem Vindo"}
           !
         </h2>
         {/**componente de boas vintas e data */}

@@ -130,7 +130,7 @@ export default async function Home() {
         </div>
 
         {/* Barbearias Populares*/}
-        <h4 className="mt-5 uppercase text-gray-400">Recomendados</h4>
+        <h4 className="mt-5 uppercase text-gray-400">Favoritos</h4>
         <div className="mt-2 flex gap-4 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
           {barbershopPopular.map((barbershop) => (
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
